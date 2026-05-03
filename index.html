@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dear, Habibi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Cormorant+Garamond&display=swap" rel="stylesheet">
+
+<style>
+/* 🌫️ Soft romantic background */
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #f5ead7, #e3d2b5, #d6c2a3);
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* 🌸 Floating background flowers */
+.bg-flower {
+  position: absolute;
+  font-size: 30px;
+  opacity: 0.25;
+  animation: floatUp linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  20% { opacity: 0.3; }
+  100% {
+    transform: translateY(-10vh) translateX(30px);
+    opacity: 0;
+  }
+}
+
+/* Envelope */
+.envelope {
+  position: relative;
+  width: 320px;
+  height: 200px;
+  background: #f3e5c8;
+  border: 1px solid #d6c2a3;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.flap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #e9d7b8;
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+  transform-origin: top;
+  transition: transform 1s ease;
+  z-index: 3;
+}
+
+.seal {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  background: #8b0000;
+  border-radius: 50%;
+  z-index: 4;
+  transition: all 0.5s ease;
+}
+
+/* Letter wrapper */
+.letter-container {
+  position: absolute;
+  width: 600px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 1.2s ease;
+  z-index: 2;
+}
+
+.show-letter {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 📜 Parchment */
+.letter {
+  position: relative;
+  background: #fdf6e3;
+  padding: 50px;
+  border: 1px solid #e0d3b8;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+/* Subtle paper texture */
+.letter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 5px 5px;
+  pointer-events: none;
+}
+
+/* Title */
+.title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+/* 🧠 FIX: proper readable text flow */
+.content {
+  font-size: 18px;
+  line-height: 1.9;
+  white-space: pre-wrap; /* IMPORTANT FIX */
+  word-wrap: break-word;
+  min-height: 320px;
+}
+
+/* Remove flower clutter inside letter */
+.letter .flower {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🌸 floating background flowers -->
+<script>
+for (let i = 0; i < 18; i++) {
+  const f = document.createElement("div");
+  f.className = "bg-flower";
+  f.innerText = "🌼";
+  f.style.left = Math.random() * 100 + "vw";
+  f.style.animationDuration = (8 + Math.random() * 10) + "s";
+  f.style.fontSize = (20 + Math.random() * 25) + "px";
+  document.body.appendChild(f);
+}
+</script>
+
+<!-- Envelope -->
+<div class="envelope" onclick="openEnvelope()">
+  <div class="flap" id="flap"></div>
+  <div class="seal" id="seal"></div>
+</div>
+
+<!-- Letter -->
+<div class="letter-container" id="letterContainer">
+  <div class="letter">
+
+    <div class="title" id="title"></div>
+    <div class="content" id="content"></div>
+
+  </div>
+</div>
+
+<script>
+const text = `I have found myself reflecting on our time together more often than I expected. Though our first meeting was brief—cut short by my trip to Texas—you remained on my mind in a way I could not quite explain.
+
+Having the chance to speak with you more this time has been something I’ve genuinely enjoyed. There is something easy and refreshing about our conversations—whether it’s sharing thoughts about our days, our interests, or the things we hope for in the future.
+
+I admire your calm presence, and the way you carry yourself. It makes every conversation feel natural, and leaves me looking forward to the next.
+
+I’ll admit, seeing you today, I was a little nervous—perhaps more than I expected—because I find you truly beautiful.
+
+I don’t yet know the best way to express everything I mean, but I do know that I would like to continue getting to know you, and to learn, in time, how to show you the care and attention you deserve.
+
+— D`;
+
+let index = 0;
+
+function openEnvelope() {
+  document.getElementById("flap").style.transform = "rotateX(180deg)";
+  document.getElementById("seal").style.transform = "scale(0)";
+  document.getElementById("seal").style.opacity = "0";
+
+  setTimeout(() => {
+    document.getElementById("letterContainer").classList.add("show-letter");
+    startTyping();
+  }, 900);
+}
+
+function startTyping() {
+  document.getElementById("title").innerText = "To Bibi,";
+  document.getElementById("content").innerText = "";
+  index = 0;
+  typeWriter();
+}
+
+function typeWriter() {
+  if (index < text.length) {
+    document.getElementById("content").innerText += text.charAt(index);
+    index++;
+    setTimeout(typeWriter, 18);
+  }
+}
+</script>
+
+</body>
+</html>
